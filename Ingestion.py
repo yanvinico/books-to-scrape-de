@@ -1,4 +1,3 @@
-# %%
 import requests
 from bs4 import BeautifulSoup
 import csv
@@ -6,18 +5,16 @@ import pandas as pd
 import time
 import boto3
 
-# %%
 url = 'https://books.toscrape.com/'
 response =  requests.get(url)
 if response.status_code == 200:
     print('response successful')
 else: 
     print('response failed')
-# %%
+
 soup = BeautifulSoup(response.text, 'html.parser')
 print(soup)
 
-# %%
 books = soup.find_all('h3')
 start_time = time.time()
 books_extracted = 0
@@ -41,8 +38,6 @@ for book in books:
 
     print(f'Title: {title}\n Category: {category}\n Rating: {rating}\n Price: {price}\n Availability: {availability}\n *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+')
 
-
-# %%
 books_data = []
 
 for page_num in range(1,51):
@@ -79,7 +74,6 @@ for page_num in range(1,51):
         print('_+_+_+_+_+_+_+_+_+_+_+_+_+_+')
         print(f'{page_num*len(books)} extraidos até agora')
 
-#%%
 df = pd.DataFrame(books_data, columns=["Title", "Category", "Rating", "Price", "Availability"])
 print(df.head(10))
 csv_filename = "books_scraped.csv"
